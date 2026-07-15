@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Object Oriented Developers</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        .login-body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-dark);
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+        }
+        .login-body::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(108, 99, 255, 0.06), transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .login-body::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 217, 166, 0.04), transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+            z-index: 1;
+        }
+        .login-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            padding: 48px 36px 36px;
+            box-shadow: var(--shadow-lg);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+        .login-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .login-logo span { color: var(--primary); }
+        .login-header h1 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+        }
+        .login-header p { color: var(--text-muted); font-size: 0.88rem; }
+        .login-form .form-group { margin-bottom: 20px; }
+        .login-form .form-group input {
+            width: 100%;
+            padding: 15px 18px 15px 48px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-light);
+            font-size: 0.92rem;
+            font-family: var(--font-body);
+            transition: var(--transition);
+            outline: none;
+        }
+        .login-form .form-group input:focus {
+            border-color: var(--primary);
+            background: rgba(108, 99, 255, 0.04);
+        }
+        .login-form .form-group input::placeholder { color: var(--text-dim); }
+        .login-form .form-group i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+        .login-form .form-group input:focus ~ i { color: var(--primary); }
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            font-size: 0.85rem;
+        }
+        .login-options label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+        .login-options label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+        .login-options a { color: var(--primary); transition: var(--transition); }
+        .login-options a:hover { color: var(--primary-light); text-decoration: underline; }
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            justify-content: center;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        .login-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+        .login-divider::before, .login-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+        .login-socials { display: flex; gap: 12px; margin-bottom: 24px; }
+        .login-social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .login-social-btn:hover {
+            border-color: var(--border-hover);
+            background: rgba(108, 99, 255, 0.05);
+            color: var(--text-light);
+        }
+        .login-social-btn i { font-size: 1.1rem; }
+        .login-social-btn.github i { color: #fff; }
+        .login-social-btn.google i { color: #ea4335; }
+        .login-footer-text {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .login-footer-text a {
+            color: var(--primary);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .login-footer-text a:hover { color: var(--primary-light); text-decoration: underline; }
+        .login-error {
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            color: #ff6b6b;
+            padding: 12px 18px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            text-align: center;
+            margin-bottom: 16px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        .login-error.show { display: block; }
+        .login-success {
+            background: rgba(0, 217, 166, 0.1);
+            border: 1px solid rgba(0, 217, 166, 0.2);
+            color: var(--secondary);
+            padding: 12px 18px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            text-align: center;
+            margin-bottom: 16px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        .login-success.show { display: block; }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 20px;
+            transition: var(--transition);
+        }
+        .back-link:hover { color: var(--primary); }
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 0.95rem;
+            padding: 4px;
+            transition: var(--transition);
+        }
+        .password-toggle:hover { color: var(--primary); }
+        @media (max-width: 480px) {
+            .login-card { padding: 32px 24px 28px; }
+            .login-options { flex-direction: column; gap: 12px; align-items: flex-start; }
+            .login-socials { flex-direction: column; }
+        }
+    </style>
+</head>
+<body class="login-body">
+    <canvas id="particlesCanvas"></canvas>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <span class="logo-icon" style="color:var(--primary);font-family:var(--font-display);font-size:1.5rem;font-weight:700;"></></span>
+                    OOD<span>ev</span>
+                </div>
+                <h1>Welcome Back</h1>
+                <p>Sign in to your developer account</p>
+            </div>
+            <div class="login-error" id="loginError"></div>
+            <div class="login-success" id="loginSuccess"></div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <input type="email" id="loginEmail" placeholder="Email address" required autocomplete="email">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password">
+                    <i class="fas fa-lock"></i>
+                    <button type="button" class="password-toggle" id="passwordToggle" title="Toggle password visibility">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="login-options">
+                    <label><input type="checkbox" id="rememberMe"> Remember me</label>
+                    <a href="#">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary login-btn">
+                    <span>Sign In</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+            <div class="login-divider">or continue with</div>
+            <div class="login-socials">
+                <button class="login-social-btn github" onclick="alert('GitHub login coming soon!')">
+                    <i class="fab fa-github"></i> GitHub
+                </button>
+                <button class="login-social-btn google" onclick="alert('Google login coming soon!')">
+                    <i class="fab fa-google"></i> Google
+                </button>
+            </div>
+            <p class="login-footer-text">Don't have an account? <a href="#">Sign up</a></p>
+            <div style="text-align:center;margin-top:8px;">
+                <a href="index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back to Portfolio
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        class LoginForm {
+            constructor(formId) {
+                this.form = document.getElementById(formId);
+                this.errorDiv = document.getElementById('loginError');
+                this.successDiv = document.getElementById('loginSuccess');
+                this.passwordInput = document.getElementById('loginPassword');
+                this.toggleBtn = document.getElementById('passwordToggle');
+                this.init();
+            }
+            init() {
+                if (!this.form) return;
+                this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+                this.toggleBtn?.addEventListener('click', () => this.togglePassword());
+            }
+            togglePassword() {
+                const type = this.passwordInput.type === 'password' ? 'text' : 'password';
+                this.passwordInput.type = type;
+                const icon = this.toggleBtn.querySelector('i');
+                icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+            }
+            handleSubmit(e) {
+                e.preventDefault();
+                this.hideAll();
+                const email = this.form.querySelector('#loginEmail').value.trim();
+                const password = this.passwordInput.value.trim();
+                if (!this.validate(email, password)) return;
+                if (email === 'admin@oodev.com' && password === 'admin123') {
+                    this.showSuccess('Login successful! Redirecting...');
+                    setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+                } else {
+                    this.showError('Invalid email or password. Try admin@oodev.com / admin123');
+                }
+            }
+            validate(email, password) {
+                if (!email) { this.showError('Please enter your email address.'); return false; }
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { this.showError('Please enter a valid email address.'); return false; }
+                if (!password) { this.showError('Please enter your password.'); return false; }
+                if (password.length < 6) { this.showError('Password must be at least 6 characters.'); return false; }
+                return true;
+            }
+            showError(msg) {
+                this.errorDiv.textContent = msg;
+                this.errorDiv.classList.add('show');
+                setTimeout(() => this.errorDiv.classList.remove('show'), 5000);
+            }
+            showSuccess(msg) {
+                this.successDiv.textContent = msg;
+                this.successDiv.classList.add('show');
+            }
+            hideAll() {
+                this.errorDiv.classList.remove('show');
+                this.successDiv.classList.remove('show');
+            }
+        }
+        class LoginParticles {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                if (!this.canvas) return;
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.init();
+            }
+            init() {
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+                this.createParticles();
+                this.animate();
+            }
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+            createParticles() {
+                const count = Math.min(50, Math.floor(window.innerWidth * 0.03));
+                for (let i = 0; i < count; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        size: Math.random() * 2 + 0.5,
+                        speedX: (Math.random() - 0.5) * 0.3,
+                        speedY: (Math.random() - 0.5) * 0.3,
+                        opacity: Math.random() * 0.3 + 0.05
+                    });
+                }
+            }
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.particles.forEach(p => {
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+                    if (p.x < 0 || p.x > this.canvas.width) p.speedX *= -1;
+                    if (p.y < 0 || p.y > this.canvas.height) p.speedY *= -1;
+                    this.ctx.beginPath();
+                    this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    this.ctx.fillStyle = `rgba(108, 99, 255, ${p.opacity})`;
+                    this.ctx.fill();
+                });
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            new LoginParticles('particlesCanvas');
+            new LoginForm('loginForm');
+        });
+    </script>
+</body>
+</html>
